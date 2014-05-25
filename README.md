@@ -1,7 +1,9 @@
-Manga RSS
+RSS filters
 =================
 
-This project contains scripts to follow mangas with
-newsbeuter, using its filter syntax. The two sites
-handled are www.mangareader.net and www.mangahere.co.
+This project maintains filters to be used with newsbeuter.
+
+It can be used to follow the following websites :
+ - http://www.mangareader.net/ : it can follow any manga stored on this website.
+ - http://www.mangahere.co/ : same goes for this one.
 
