@@ -13,8 +13,8 @@ while(my $line = <>) {
     chomp $line;
     if(not $inlist and $line =~ m/^<h3 class="titre_bloc"><span>Dernières Chroniques vidéo<\/span><\/h3>/) {
         $inlist = !0;
-    } elsif($inlist and ($line =~ m/<li><strong>..\/.. : <a href="(.*?)">(.*?)<\/a>, (.*?)<\/strong><\/li>/
-            or $line =~ m/<li>..\/.. : <a href="(.*?)">(.*?)<\/a>, (.*?)<\/li>/)) {
+    } elsif($inlist and ($line =~ m/<li><strong>..\/.. : <a href="(.*?)"\s*>(.*?)<\/a>, (.*?)<\/strong><\/li>/
+            or $line =~ m/<li>..\/.. : <a href="(.*?)"\s*>(.*?)<\/a>, (.*?)<\/li>/)) {
         my $link = $1;
         my $name = "$2 ($3)";
         push @entries, ($link,$name);
