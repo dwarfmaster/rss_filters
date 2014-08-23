@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 my @entries;
-my $nb;
+my $nb = 0;
 my $title;
 
 # Parsing HTML
@@ -37,9 +37,10 @@ while(my $line = <>) {
         $firstp = !0;
     }
     # End of name
-    elsif($inentry and $line =~ m/<span class="mr6"><\/span>(.*?)<\/span>/) {
+    elsif($inentry and $line =~ m/<span class="mr6">(.*?)<\/span>(.*?)<\/span>/) {
         $name = "" if not $firstp;
-        $name = "$name : $1";
+        $name = "$name : $2";
+        $name = "$name ($1)" if $1 ne "";
         push @entries, ($link,$name);
         ++$nb;
         $inentry = !1;
