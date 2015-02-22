@@ -10,3 +10,7 @@ It can be used to follow the following websites :
  - http://www.jeuxvideo.com/chroniques-video.htm : jeuxvideo.com already has RSS,
    but this one only notify you of new chronics.
 
+The title.pl is particular in that in allows you to change the title of a feed
+on the fly. Use it like that :
+ ``` cat rss.xml | ./title.pl The new title ```
+
