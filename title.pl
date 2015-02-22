@@ -5,7 +5,7 @@ use warnings;
 my $true = !0;
 my $false = !1;
 
-my $title = $ARGV[0];
+my $title = join ' ',@ARGV;
 my $inchannel = $false;
 my $line = "";
 while($line = <STDIN>) {
