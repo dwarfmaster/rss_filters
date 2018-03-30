@@ -13,7 +13,7 @@ cabal-version:       >=1.10
 
 executable rss_filter
   main-is:             Main.hs
-  other-modules:       RSS, Scrappers
+  other-modules:       RSS, Scrappers, Filters
   hs-source-dirs:      src/
   build-depends:       base >= 4.9 && < 4.10
                      , array, containers, transformers, directory
