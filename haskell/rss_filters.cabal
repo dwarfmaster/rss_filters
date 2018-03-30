@@ -11,9 +11,9 @@ build-type:          Simple
 extra-source-files:
 cabal-version:       >=1.10
 
-executable ling
+executable rss_filter
   main-is:             Main.hs
-  other-modules:       RSS
+  other-modules:       RSS, Scrappers
   hs-source-dirs:      src/
   build-depends:       base >= 4.9 && < 4.10
                      , array, containers, transformers, directory

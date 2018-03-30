@@ -5,23 +5,18 @@ import Text.XML.HXT.Core
 import Text.XML.HXT.Arrow.XmlState.RunIOStateArrow
 import System.Environment
 import RSS
-
-type Scrapper = ( IOSLA (XIOState ()) XmlTree RSSFeed
-                , IOSLA (XIOState ()) XmlTree RSSItem
-                )
+import Scrappers
 
 runScrapper :: Scrapper -> IOSLA (XIOState ()) () ()
 runScrapper (afeed, aitem) =
-     readDocument [ withValidate no
+     readDocument [ withValidate  no
                   , withParseHTML yes
+                  , withWarnings  no
                   ]
                   ""
  >>> generateFeed afeed aitem
- >>> writeDocument [] ""
+ >>> writeDocument [ withIndent yes ] ""
  >>^ const ()
-
-scrappers :: [(String, Scrapper)]
-scrappers = []
 
 run :: String -> IO ()
 run scrap = case lookup scrap scrappers of

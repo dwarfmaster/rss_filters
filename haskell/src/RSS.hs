@@ -10,12 +10,14 @@ data RSSFeed = RSSFeed
              , feed_link        :: String
              , feed_description :: String
              }
+             deriving (Eq, Show)
 
 data RSSItem = RSSItem
              { item_title       :: String
              , item_link        :: String
              , item_description :: String
              }
+             deriving (Eq, Show)
 
 generateItem :: ArrowXml a => a RSSItem XmlTree
 generateItem =
@@ -27,13 +29,15 @@ generateItem =
 
 generateFeed :: ArrowXml a => a b RSSFeed -> a b RSSItem -> a b XmlTree
 generateFeed feed_arrow item_arrow =
-     (feed_arrow &&& item_arrow)
- >>> mkelem "rss" [ sattr "version"    "2.0"
-                  , sattr "xmlns:atom" "http://www.w3.org/2005/Atom"
-                  ]
-         [ selem "title"       [ arr fst >>> arr feed_title       >>> mkText ]
-         , selem "link"        [ arr fst >>> arr feed_link        >>> mkText ]
-         , selem "description" [ arr fst >>> arr feed_description >>> mkText ]
-         , arr snd >>> generateItem
-         ]
+     (feed_arrow &&& arr id)
+ >>> root []
+     [ mkelem "rss" [ sattr "version"    "2.0"
+                    , sattr "xmlns:atom" "http://www.w3.org/2005/Atom"
+                    ]
+           [ selem "title"       [ arr fst >>> arr feed_title       >>> mkText ]
+           , selem "link"        [ arr fst >>> arr feed_link        >>> mkText ]
+           , selem "description" [ arr fst >>> arr feed_description >>> mkText ]
+           , arr snd >>> item_arrow >>> generateItem
+           ]
+     ]
 
