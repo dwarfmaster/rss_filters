@@ -3,7 +3,6 @@
 module Scrappers.Mangareader (scrapper) where
 
 import Text.XML.HXT.Core
-import Text.XML.HXT.Arrow.XmlState.RunIOStateArrow
 import Data.Monoid
 import Data.Maybe (isNothing)
 import Scrappers.Util
@@ -54,15 +53,4 @@ scrap_item = deep $
  where getAnyM :: Maybe a -> Maybe a -> Maybe a
        getAnyM (Just x) _ = Just x
        getAnyM _        y = y
-
-test :: IOSLA (XIOState ()) XmlTree b -> IO [b]
-test arrow = runIOSLA ( readDocument [ withValidate no
-                                     , withParseHTML yes
-                                     ]
-                                     "../../files/mangareader.html"
-                    >>> arrow
-                      )
-                      (initialState ())
-                      ()
-         >>= return . snd
 
