@@ -6,9 +6,10 @@ import Text.XML.HXT.Arrow.XmlState.RunIOStateArrow
 import System.Environment
 import RSS
 import Scrappers
+import Filters
 
-runScrapper :: Scrapper -> IOSLA (XIOState ()) () ()
-runScrapper (afeed, aitem) =
+runScrapper :: Scrapper -> [String] -> IOSLA (XIOState ()) () ()
+runScrapper scrapper args = let (afeed, aitem) = scrapper args in
      readDocument [ withValidate  no
                   , withParseHTML yes
                   , withWarnings  no
@@ -18,16 +19,33 @@ runScrapper (afeed, aitem) =
  >>> writeDocument [ withIndent yes ] ""
  >>^ const ()
 
-run :: String -> IO ()
-run scrap = case lookup scrap scrappers of
-              Nothing -> return ()
-              Just sc -> runIOSLA (runScrapper sc) (initialState ()) ()
-                      >> return ()
+runFilter :: Filter -> [String] -> IOSLA (XIOState ()) () ()
+runFilter flt args = let arrow = flt args in
+     readDocument [ withValidate no
+                  , withWarnings no
+                  ]
+                  ""
+ >>> arrow
+ >>> writeDocument [ withIndent yes ] ""
+ >>^ const ()
+
+run :: String -> [String] -> IO ()
+run cmd args = case lookup cmd scrappers of
+                   Just sc -> runIOSLA (runScrapper sc args)
+                                       (initialState ())
+                                       ()
+                           >> return ()
+                   Nothing -> case lookup cmd filters of
+                                Just flt -> runIOSLA (runFilter flt args)
+                                                     (initialState ())
+                                                     ()
+                                         >> return ()            
+                                Nothing  -> return ()
 
 main :: IO ()
 main = do
     ags <- getArgs
     case ags of
-      [scrap] -> run scrap
-      _       -> putStrLn "usage: program scrapper_name"
+      cmd:args -> run cmd args
+      []       -> putStrLn "usage: program command_name [scrapper_arg*]"
 

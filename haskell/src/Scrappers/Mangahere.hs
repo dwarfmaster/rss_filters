@@ -8,7 +8,7 @@ import Scrappers.Util
 import RSS
 
 scrapper :: Scrapper
-scrapper = (scrap_feed, scrap_item)
+scrapper = const (scrap_feed, scrap_item)
 
 weblink :: String
 weblink = "http://www.mangahere.cc"
