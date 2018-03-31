@@ -1,17 +1,16 @@
 RSS filters
 =================
 
-This project maintains filters to be used with newsbeuter.
+This project maintains filters to be used with newsbeuter. There is only one
+executable, and every filter has a name that must be passed as first argument
+of the executable when used. Any following argument is used as argument for
+the filter.
 
 It can be used to follow the following websites :
- - http://www.mangareader.net/ : it can follow any manga stored on this website.
- - http://www.mangahere.co/ : same goes for this one.
- - http://www.mangainn.me/ : idem
- - http://www.userfriendly.org/ : give it the address of the archives.
- - http://www.jeuxvideo.com/chroniques-video.htm : jeuxvideo.com already has RSS,
-   but this one only notify you of new chronics.
-
-The title.pl is particular in that in allows you to change the title of a feed
-on the fly. Use it like that :
- ``` cat rss.xml | ./title.pl The new title ```
+ - http://www.mangareader.net/ : it can follow any manga stored on this website
+                                 (name `mangareader`).
+ - http://www.mangahere.co/ : same goes for this one (name `mangahere`)
+ - http://www.mangainn.me/ : idem (name `mangainn`)
+ - renaming : can change the name of a feed (name `rename`), expect one argument,
+              the new name of the feed
 
